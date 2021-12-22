@@ -1,36 +1,34 @@
-name: main.py
+name: main
 
-on:
+on: 
+  workflow_dispatch:  # Workflow中的运行按钮
+  release:
+    types: [published]
   push:
-    branches: main
-  gollum:
-  workflow_dispatch:
+    tags:
+    - 'v*'
+  #  branches: 
+  #    - main
   schedule:
-    - cron: '30 22 * * *'
-
+    - cron: '30 22 * * *' # 早上十二点到晚上十点每小时一次
+  watch:
+    types: [started]
+   
 jobs:
-  deploy:
-
+  build:
     runs-on: ubuntu-latest
-
+    if: github.event.repository.owner.id == github.event.sender.id  # 自己点的 star 来运行脚本
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python
-      uses: actions/setup-python@v2
+    - name: Checkout
+      uses: actions/checkout@main
+    - name: Set up Python #安装python
+      uses: actions/setup-python@v1
       with:
-        python-version: '3.x'
-    - uses: actions/cache@v2
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/run_in_Actions/requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
-    - name: Set time zone
-      run: sudo timedatectl set-timezone 'Asia/Shanghai'
-    - name: Install dependencies
+        python-version: 3.8
+    - name: Install requirements #安装轮子
       run: |
         pip install requests beautifulsoup4
-    - name: Build and publish
+    - name: Run script
       env:
         USERNAME: ${{ secrets.USERNAME }}
         PASSWORD: ${{ secrets.PASSWORD }}

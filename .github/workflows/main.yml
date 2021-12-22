@@ -10,7 +10,7 @@ on:
   #  branches: 
   #    - main
   schedule:
-    - cron: '30 22 * * *' # 早上十二点到晚上十点每小时一次
+    - cron: '0 8 25-26 * *' # 早上十二点到晚上十点每小时一次
   watch:
     types: [started]
    

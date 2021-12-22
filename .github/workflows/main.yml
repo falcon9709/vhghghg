@@ -32,7 +32,9 @@ jobs:
         pip install requests beautifulsoup4
     - name: Build and publish
       env:
-        USERS_COVER: ${{ secrets.USERS_COVER }}
+        USERNAME: ${{ secrets.USERNAME }}
+        PASSWORD: ${{ secrets.PASSWORD }}
+        # https://mailparser.io   
+        MAILPARSER_DOWNLOAD_URL_ID: ${{ secrets.MAILPARSER_DOWNLOAD_URL_ID }}
       run: |
-        echo "$USERS_COVER" > ./config.json
-        python main.py
+        python3 Main.py "$USERNAME" "$PASSWORD" "$MAILPARSER_DOWNLOAD_URL_ID"

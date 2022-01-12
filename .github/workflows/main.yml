@@ -36,4 +36,4 @@ jobs:
         # https://mailparser.io   
         MAILPARSER_DOWNLOAD_URL_ID: ${{ secrets.MAILPARSER_DOWNLOAD_URL_ID }}
       run: |
-        python3 main.py "$USERNAME" "$PASSWORD" "$MAILPARSER_DOWNLOAD_URL_ID"
+        python3 main.py
